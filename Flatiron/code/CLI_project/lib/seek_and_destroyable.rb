@@ -7,5 +7,4 @@ module SeekAndDestroyable
   def destroy_all
     self.all.clear
   end
-
 end
