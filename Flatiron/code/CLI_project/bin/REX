@@ -1,0 +1,26 @@
+#requirements go here
+#
+#
+#
+
+streamers = ["Netflix","Hulu","Amazon Prime Video","Disney Plus","HBO Max","Criterion Channel"]
+streamers.each {|streamer| Streamer.find_or_create_by_name(streamer)}
+
+puts "Hello, my name is Rex!"
+puts "Want to watch a movie, but you're sick of endlessly skimming half-a-dozen streaming services looking for the *right* movie?"
+puts "I can help you with that! I know the most popular movies for every streaming service."
+puts "Want me to give you a recommendation? (y/n)"
+
+initial_prompt = gets.strip
+
+puts "Awesome. I'm happy to help!"
+puts "First, please pick a streaming service. Here are some of your options..."
+streamers.each {|streamer| puts "#{streamer}"}
+puts "If you would like a list of all available streamers"
+
+streamer_input = gets.strip
+
+puts "Thanks! If you want I can either:"
+puts "A: List all available movies on #{streamer_input},"
+puts "B: List all available movies by genre,"
+puts "or C: Make a recommendation"
