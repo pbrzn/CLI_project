@@ -1,5 +1,5 @@
 class Genre
-  extend FindableAndDestructible
+  extend SeekAndDestroyable
   attr_accessor :name, :movies
   @@all = []
 
@@ -16,18 +16,20 @@ class Genre
     @@all << self
   end
 
-  def self.find_or_create_by_name(name)
-    if 
-    else
-      new_genre=Genre.new(movie.genre)
-      new_genre.save
-      new_genre.movies << movie
-    end
-  end
-
   def movies
     @movies
   end
+
+  # def self.find_or_create_by_movie(movie_name)
+  #   movie = Movie.find_by_name(movie_name)
+  #   if movie.genre == self
+  #     self.movies << movie
+  #   else
+  #     new_genre=Genre.new(movie.genre)
+  #     new_genre.save
+  #     new_genre.movies << movie
+  #   end
+  # end
 
   # def self.find_by_name(name)
   #   self.all.find {|movie| movie.name==name}

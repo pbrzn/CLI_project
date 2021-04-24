@@ -2,13 +2,16 @@
 # require_relative './movie'
 
 class Streamer
-  extend FindableAndDestructible
+  extend SeekAndDestroyable
   attr_accessor :name, :movies
   @@all=[]
 
   def initialize(name)
     @name=name
     @movies=[]
+  end
+
+  def save
     @@all << self
   end
 
@@ -21,8 +24,8 @@ class Streamer
   # end
 
   def self.find_or_create_by_name(name)
-    if !self.all.find {|i| i.name==name}
-      streamer = self.new(name)
+    if !self.find_by_name(name)
+      streamer = self.new(name).save
       streamer.create_library
     else
       self.find_by_name(name)
@@ -45,7 +48,7 @@ class Streamer
 
   def movies_by_genre(genre_name)
     genre_array = []
-    genre=Genre.find_or_create_by_name(genre_name)
+    genre=Genre.find_by_name(genre_name)
     genre.movies.each {|movie| genre_array << movie.name if movie.streamer == self.name }
     genre_array
   end

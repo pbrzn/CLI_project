@@ -1,7 +1,7 @@
 # require_relative "./scraper"
 
 class Movie
-  extend FindableAndDestructible
+  extend SeekAndDestroyable
   attr_accessor :name, :year, :genre, :runtime, :synopsis, :streamer, :url
   @@all=[]
 
@@ -36,8 +36,16 @@ class Movie
     attributes.each do |k,v|
       self.send("#{k}=", v)
     end
-    #self
   end
+
+  def create_genre
+    genre_array = self.genre.split(",")
+    genre_array.each do |genre|
+      Genre.new(genre).save unless Genre.find_by_name(genre)
+    end
+  end
+end
+
 
   # def self.find_by_name(name)
   #   self.all.find {|movie| movie.name==name}
@@ -47,4 +55,3 @@ class Movie
   # def self.destroy_all
   #   self.all.clear
   # end
-end
