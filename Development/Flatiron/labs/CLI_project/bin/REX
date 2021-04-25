@@ -1,0 +1,69 @@
+#!#!/usr/bin/env ruby
+
+require_relative '/config/environment.rb'
+
+popular_streamers = ["Netflix","Hulu","Amazon Prime Video","Disney Plus","HBO Max","Criterion Channel"]
+#popular_streamers.each {|streamer| Streamer.find_or_create_by_name(streamer)}
+all_streamers = ["Netflix","Netflix Kids","Hulu","Amazon Prime Video","Disney Plus","HBO Max","Criterion Channel","Apple TV Plus","Paramount Plus","Peacock","Peacock Premium","Google Play Movies","YouTube","Shudder","Hoopla","Kanopy","Funimation Now","IMDB TV","Vudu","Redbox","AMC Theaters","Popcornflix","Mubi","Starz","Showtime","Max Go","IndieFlix","TCM"]
+
+puts "Hello, my name is Rex!"
+puts "Want to watch a movie, but you're sick of endlessly skimming half-a-dozen streaming services looking for the *right* movie?"
+puts "I can help you with that! I know the most popular movies for every streaming service."
+puts "Want me to give you a recommendation? (y/n)"
+
+initial_prompt = gets.strip
+case initial_prompt
+  when "n"
+    puts "Okay. Feel free to open me up next time you're picking a movie!"
+    exit
+  when "y"
+    puts "Awesome. I'm happy to help!"
+
+puts "First, please pick a streaming service. Here are some of your options..."
+popular_streamers.each {|streamer| puts "#{streamer}"}
+puts "If you would like a list of all available streamers, type 'list streamers'..."
+puts "...otherwise please type in the name of the streaming service you would like me to sift through."
+
+streamer_input = gets.strip
+
+if streamer_input == "list streamers"
+  puts "Okay, here are all available streamers as of today..."
+  all_streamers.each {|streamer| puts "#{streamer}"}
+  puts "Which streaming service would you like to choose?"
+  streamer_input = gets.strip
+else
+  streamer = Streamer.find_or_create_by_name(streamer_input)
+end
+
+puts "Thanks! If you want I can either:"
+puts "A: List all available movies on #{streamer},"
+puts "B: List all available movies by genre,"
+puts "or C: Make a recommendation right off the bat!"
+puts "Which option would you like to choose: A, B or C?"
+
+abc_input = gets.strip
+case abc_input
+  when "A"
+    num = 1
+    streamer.movies.each do |movie|
+      puts "#{num}. #{movie.name}"
+      num+=1
+    end
+
+  when "B"
+    puts "Okay, which genre would you like to choose? Here are your options..."
+    num=1
+      streamer.genres.each do |genre|
+      puts "#{num}. #{genre.name}"
+      num+=1
+    end
+
+  when "C"
+    puts "Okay, here is the movie I'd like to recommend to you..."
+    last_one = streamer.movies.length
+    rec = streamer.movies[rand(1..last_one)]
+    puts rec.name
+    puts "Year: #{rec.year}"
+    puts "Genre: #{rec.genre.join(",")}"
+    puts "Runtime: #{rec.runtime}"
+    puts "Synopsis: #{rec.synopsis}"
