@@ -13,7 +13,7 @@ class Scraper
       film = {}
       film[:name] = movie.css("img.picture-comp__img").attribute("alt").text
       film[:url] = movie.css("a").attribute("href").value
-      #film[:streamer]=streaming_service
+      film[:streamer]=streaming_service
       array << film
     end
     array

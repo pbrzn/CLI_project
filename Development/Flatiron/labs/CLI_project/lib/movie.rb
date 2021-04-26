@@ -6,13 +6,13 @@ class Movie
   def initialize(basic_info)
     @name = basic_info[:name]
     @url = basic_info[:url]
-    @streamer = streamer
-    @@all << self
+    @streamer = basic_info[:streamer]
+    #@@all << self
   end
 
-  # def save
-  #   @@all << self
-  # end
+  def save
+    @@all << self
+  end
 
   def self.all
     @@all

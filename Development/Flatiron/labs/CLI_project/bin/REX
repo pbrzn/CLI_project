@@ -1,4 +1,4 @@
-#!#!/usr/bin/env ruby
+#!/usr/bin/env ruby
 
 require_relative '../config/environment'
 
@@ -32,11 +32,11 @@ case initial_prompt
       puts "Which streaming service would you like to choose?"
       streamer_input = gets.strip
     else
-      streamer = Streamer.find_or_create_by_name(streamer_input).create_library
+      streamer = Streamer.find_or_create_by_name(streamer_input)
     end
 
     puts "Thanks! If you want I can either:"
-    puts "A: List all available movies on #{streamer.name},"
+    puts "A: List all available movies on #{streamer_input},"
     puts "B: List all available movies by genre,"
     puts "or C: Make a recommendation right off the bat!"
     puts "Which option would you like to choose: A, B or C?"
