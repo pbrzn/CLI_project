@@ -48,7 +48,7 @@ case abc_input
     streamer.movies.each do |movie|
       puts "#{num}. #{movie.name}"
       num+=1
-    end
+
 
   when "B"
     puts "Okay, which genre would you like to choose? Here are your options..."

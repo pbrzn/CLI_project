@@ -1,14 +1,11 @@
-# require_relative './scraper'
-# require_relative './movie'
-
 class Streamer
   extend SeekAndDestroyable
   attr_accessor :name, :movies
   @@all=[]
 
   def initialize(name)
-    @name=name
-    @movies=[]
+    @name = name
+    @movies = []
   end
 
   def save
@@ -24,12 +21,12 @@ class Streamer
     library.each do |movie|
       if Movie.find_by_name(movie[:name])
         old_movie = Movie.find_by_name(movie[:name])
-        old_streamer = old_movie.streamer
-        if old_streamer != self
-          old_movie.streamer.to_a << self#{old_streamer}, #{self}"
+        if !old_movie.streamer.include?(self)
+          old_movie.streamer.to_a << self
         end
       else
         new_movie = Movie.new(movie)
+        new_movie.streamer = self
         new_movie.add_attributes#.save
         self.movies << new_movie
       end
@@ -45,10 +42,6 @@ class Streamer
       self.find_by_name(name)
     end
   end
-
-  # def create_genres_from_movies
-  #   self.movies.each {|movie| movie.}
-  # end
 
   def movies_by_genre(genre_name)
     genre_array = []

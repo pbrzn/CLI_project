@@ -6,7 +6,7 @@ class Movie
   def initialize(basic_info)
     @name = basic_info[:name]
     @url = basic_info[:url]
-    @streamer = basic_info[:streamer]
+    @streamer = streamer
     @@all << self
   end
 
@@ -26,7 +26,7 @@ class Movie
     self
   end
 
-  def find_or_create_genres
-    genre = Genre.find_or_create_by_movie(self)
-  end
+  # def find_or_create_genres
+  #   genre = Genre.find_or_create_by_movie(self)
+  # end
 end
