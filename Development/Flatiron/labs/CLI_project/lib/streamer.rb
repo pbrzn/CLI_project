@@ -1,11 +1,10 @@
 class Streamer
   extend SeekAndDestroyable
-  attr_accessor :name, :movies
+  attr_accessor :name, :movies, :genres
   @@all=[]
 
   def initialize(name)
     @name = name
-    @movies = []
   end
 
   def save
@@ -17,36 +16,35 @@ class Streamer
   end
 
   def create_library
-    library = Scraper.streamer_scraper(name)
+    @movies = []
+    library = Scraper.streamer_scraper(self.name)
     library.each do |movie|
-      if Movie.find_by_name(movie[:name])
-        old_movie = Movie.find_by_name(movie[:name])
-        if !old_movie.streamer.include?(self)
-          old_movie.streamer.to_a << self
-        end
-      else
-        new_movie = Movie.new(movie)
-        new_movie.streamer = self
-        new_movie.add_attributes#.save
-        self.movies << new_movie
-      end
+      new_movie = Movie.new(movie)
+      new_movie.streamer = self
+      new_movie.add_attributes#.save
+      @movies << new_movie
     end
   end
 
   def self.find_or_create_by_name(name)
     if !self.find_by_name(name)
       streamer = self.new(name)
-      # streamer.create_library
+      #streamer.create_library
       streamer.save
     else
       self.find_by_name(name)
     end
   end
 
-  def movies_by_genre(genre_name)
-    genre_array = []
-    genre = Genre.find_by_name(genre_name)
-    genre.movies.each {|movie| genre_array << movie.name if movie.streamer == self.name }
-    genre_array
+  def genres
+    @genres = []
+    self.movies.each do |movie|
+      movie.genre.each {|genre| @genres << genre unless @genres.include?(genre)}
+    end
   end
+
+  # def movies_by_genre(genre_name)
+  #   genre = self.genres.find {|genre| genre == genre_name}
+  #   genre.movies.map {|movie| movie.streamer == self}
+  # end
 end

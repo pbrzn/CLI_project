@@ -32,7 +32,7 @@ case initial_prompt
       puts "Which streaming service would you like to choose?"
       streamer_input = gets.strip
     else
-      streamer = Streamer.find_or_create_by_name(streamer_input)
+      streamer = Streamer.find_or_create_by_name(streamer_input).create_library
     end
 
     puts "Thanks! If you want I can either:"

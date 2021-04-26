@@ -5,7 +5,6 @@ class Genre
 
   def initialize(name)
     @name = name
-    @movies = []
   end
 
   def self.all
@@ -17,13 +16,14 @@ class Genre
   end
 
   def self.find_or_create_by_movie(movie)
+    @movies = []
     movie.genre.each do |genre|
       if !self.find_by_name(genre)
         new_genre=Genre.new(genre)
         new_genre.save
-        new_genre.movies << movie
+        @movies << movie
       else
-        self.movies << movie.name
+        self.movies << movie
       end
     end
   end
