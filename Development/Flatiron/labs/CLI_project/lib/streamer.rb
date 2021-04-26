@@ -36,7 +36,7 @@ class Streamer
   def self.find_or_create_by_name(name)
     if !self.find_by_name(name)
       streamer = self.new(name)
-      streamer.create_library
+      # streamer.create_library
       streamer.save
     else
       self.find_by_name(name)

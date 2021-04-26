@@ -22,10 +22,8 @@ class Genre
         new_genre=Genre.new(genre)
         new_genre.save
         new_genre.movies << movie
-        # new_genre
       else
         self.movies << movie.name
-        # self
       end
     end
   end
