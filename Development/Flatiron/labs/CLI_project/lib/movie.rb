@@ -7,7 +7,8 @@ class Movie
     @name = basic_info[:name]
     @url = basic_info[:url]
     @streamer = basic_info[:streamer]
-    #@@all << self
+    self.add_attributes
+    self.create_genres
   end
 
   def save
@@ -26,7 +27,15 @@ class Movie
     self
   end
 
-  # def find_or_create_genres
-  #   genre = Genre.find_or_create_by_movie(self)
-  # end
+  def create_genres
+    self.genre.each do |genre|
+      Genre.find_or_create_by_movie(self)
+      # new_genre = Genre.new(genre.strip).save unless Genre.find_by_name(genre.strip)
+      # new_genre.movies << self
+    end
+  end
+
+  def genre
+    @genre
+  end
 end

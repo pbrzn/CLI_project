@@ -1,22 +1,20 @@
 require 'nokogiri'
 require 'open-uri'
+# require 'pry'
 
 class Scraper
 
   def self.streamer_scraper(streaming_service)
-    index_link = "https://www.justwatch.com/us/provider/#{streaming_service.downcase.gsub(" ", "-")}/movies"
-    streamer = Nokogiri::HTML(open(index_link))
-    array = []
+    streamer = Nokogiri::HTML(open("http://www.justwatch.com/us/provider/#{streaming_service.downcase.gsub(" ", "-")}/movies"))
     movies = streamer.css("div.title-list-grid__item")
 
-    movies.each do |movie|
+    movies.map do |movie|
       film = {}
       film[:name] = movie.css("img.picture-comp__img").attribute("alt").text
       film[:url] = movie.css("a").attribute("href").value
       film[:streamer]=streaming_service
-      array << film
+      film
     end
-    array
   end
 
   def self.movie_scraper(url)

@@ -10,6 +10,7 @@ class Streamer
     @movies = []
     @genres = []
     self.create_library
+    self.genres
   end
 
   def save
@@ -20,12 +21,16 @@ class Streamer
     @@all
   end
 
+  # def movies
+  #   @movies
+  # end
+
   def create_library
     library = Scraper.streamer_scraper(self.name)
     library.each do |movie_hash|
-      new_movie = Movie.new(movie_hash).add_attributes.save
-      #new_movie.streamer = self.name
+      new_movie = Movie.new(movie_hash)
       @movies << new_movie
+      new_movie.save
     end
     @movies
   end
@@ -34,21 +39,22 @@ class Streamer
     if !self.find_by_name(name)
       streamer = self.new(name)
       streamer.save
+      streamer
     else
       self.find_by_name(name)
     end
   end
 
   def genres
-    binding.pry
     self.movies.each do |movie|
-      movie.genre.each {|genre| @genres << genre unless @genres.include?(genre)}
+      movie.genre.each {|genre| @genres << genre.strip unless @genres.include?(genre.strip)}
     end
     @genres
   end
 
   def movies_by_genre(genre_name)
-    genre = self.genres.find {|genre| genre == genre_name}
+    binding.pry
+    genre = Genre.find_by_name(genre_name)
     genre.movies.map {|movie| movie.streamer == self}
   end
 end

@@ -5,4 +5,3 @@ module SeekAndDestroyable
 end
 
 require_all 'lib'
-require_relative './bin/REX'
