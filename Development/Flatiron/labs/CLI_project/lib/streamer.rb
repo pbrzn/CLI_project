@@ -21,10 +21,6 @@ class Streamer
     @@all
   end
 
-  # def movies
-  #   @movies
-  # end
-
   def create_library
     library = Scraper.streamer_scraper(self.name)
     library.each do |movie_hash|
@@ -53,8 +49,7 @@ class Streamer
   end
 
   def movies_by_genre(genre_name)
-    binding.pry
     genre = Genre.find_by_name(genre_name)
-    genre.movies.map {|movie| movie.streamer == self}
+    genre.movies.select {|movie| movie.streamer == self.name}
   end
 end
